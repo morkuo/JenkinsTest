@@ -9,7 +9,10 @@ jobs:
   hello:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
-        uses: actions/checkout@v4
-      - name: Hello
-        run: echo "hello world"
+      - name: trigger one Job
+        uses: appleboy/jenkins-action@master
+        with:
+          url: 'https://6fbd-219-70-222-134.ngrok-free.app'
+          user: 'admin'
+          token: ${{ secrets.JENKINS_API_TOKEN }}
+          job: 'newJob'
