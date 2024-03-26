@@ -15,4 +15,4 @@ jobs:
           url: 'https://6fbd-219-70-222-134.ngrok-free.app'
           user: 'admin'
           token: ${{ secrets.JENKINS_API_TOKEN }}
-          job: 'newJob'
+          job: 'newJob, someJob'
