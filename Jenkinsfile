@@ -42,7 +42,7 @@ spec:
             steps {
               git 'https://github.com/morkuo/JenkinsTest.git'
               container("kaniko") {
-                  sh "/kaniko/executor --context ${context} --dockerfile ${dockerfile} --destination ${image}"
+                  sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --destination ${image}"
               }
             }
         }
