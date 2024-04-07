@@ -21,7 +21,6 @@ spec:
           mountPath: /kaniko/.docker
         - name: dockerfile
           mountPath: /workspace
-    restartPolicy: Never
   restartPolicy: Never
   volumes:
     - name: kaniko-secret
