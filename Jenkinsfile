@@ -38,22 +38,9 @@ spec:
     }
 
     stages {
-        stage('git clone'){
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/morkuo/JenkinsTest.git'
-            }  
-            post {
-                failure {
-                    echo "[*] git clone failure"
-                }
-                success {
-                    echo '[*] git clone successful'
-                }
-            }
-        }
         stage('Build') {
             steps {
+              git 'https://github.com/morkuo/JenkinsTest.git'
               container("kaniko") {
                   sh "/kaniko/executor --context ${context} --dockerfile ${dockerfile} --destination ${image}"
               }
