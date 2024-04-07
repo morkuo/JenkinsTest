@@ -41,7 +41,7 @@ pipeline {
               git branch: 'main',
                   url: 'https://github.com/morkuo/JenkinsTest.git'
               container("kaniko") {
-                  sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --destination ${image}"
+                  sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination ${image}"
               }
             }
         }
