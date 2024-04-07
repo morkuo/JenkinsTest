@@ -40,7 +40,7 @@ spec:
     stages {
         stage('Build') {
             steps {
-              git branch: 'master',
+              git branch: 'main',
                   url: 'https://github.com/morkuo/JenkinsTest.git'
               container("kaniko") {
                   sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --destination ${image}"
