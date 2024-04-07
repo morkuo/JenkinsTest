@@ -12,11 +12,16 @@ spec:
       image: jenkins/inbound-agent:latest
     - name: kaniko
       image: gcr.io/kaniko-project/executor:debug
+      command:
+        - sleep
+      args:
+        - 9999999
       volumeMounts:
         - name: kaniko-secret
           mountPath: /kaniko/.docker
         - name: dockerfile
           mountPath: /workspace
+    restartPolicy: Never
   restartPolicy: Never
   volumes:
     - name: kaniko-secret
