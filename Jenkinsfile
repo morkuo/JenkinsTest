@@ -13,7 +13,7 @@ spec:
       command:
         - sleep
       args:
-        - 9999999
+        - 99d
       volumeMounts:
         - name: kaniko-secret
           mountPath: /kaniko/.docker
@@ -37,6 +37,9 @@ spec:
     environment {
         DOCKERHUB_USERNAME = "mortonkuo"
         IMAGE_NAME = "our-new-image"
+        CONTEXT = "dir://workspace"
+        DOCKERFILE = "/workspace/Dockerfile"
+        IMAGE= "${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
     }
 
     stages {
@@ -56,15 +59,7 @@ spec:
         }
         stage('Build') {
             steps {
-              container("kaniko") {
-                  script {
-                      def context = "dir://workspace"
-                      def dockerfile = "/workspace/Dockerfile"
-                      def image = "${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
-
-                      sh "/kaniko/executor --context ${context} --dockerfile ${dockerfile} --destination ${image}"
-                  }
-              }
+              sh "/kaniko/executor --context ${CONTEXT} --dockerfile ${DOCKERFILE} --destination ${IMAGE}"
             }
         }
         stage('Test') {
