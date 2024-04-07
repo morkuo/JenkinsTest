@@ -59,7 +59,7 @@ spec:
         }
         stage('Build') {
             steps {
-              sh "/kaniko/executor --context ${CONTEXT} --dockerfile ${DOCKERFILE} --destination ${IMAGE}"
+              sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --destination ${IMAGE}"
             }
         }
         stage('Test') {
