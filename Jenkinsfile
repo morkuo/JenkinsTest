@@ -51,14 +51,16 @@ spec:
             }
         }
         stage('Build') {
-            container("kaniko") {
-                script {
-                    def context = "dir://workspace"
-                    def dockerfile = "/workspace/Dockerfile"
-                    def image = "${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
+            steps {
+              container("kaniko") {
+                  script {
+                      def context = "dir://workspace"
+                      def dockerfile = "/workspace/Dockerfile"
+                      def image = "${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
 
-                    sh "/kaniko/executor --context ${context} --dockerfile ${dockerfile} --destination ${image}"
-                }
+                      sh "/kaniko/executor --context ${context} --dockerfile ${dockerfile} --destination ${image}"
+                  }
+              }
             }
         }
         stage('Test') {
