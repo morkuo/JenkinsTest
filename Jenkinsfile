@@ -39,7 +39,7 @@ spec:
         IMAGE_NAME = "our-new-image"
         CONTEXT = "dir://workspace"
         DOCKERFILE = "/workspace/Dockerfile"
-        IMAGE= "${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
+        IMAGE = "${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
     }
 
     stages {
@@ -59,7 +59,9 @@ spec:
         }
         stage('Build') {
             steps {
-              sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --destination ${IMAGE}"
+              container("kaniko") {
+                  sh "/kaniko/executor --context ${context} --dockerfile ${dockerfile} --destination ${image}"
+              }
             }
         }
         stage('Test') {
