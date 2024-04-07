@@ -8,6 +8,8 @@ metadata:
   name: kaniko
 spec:
   containers:
+    - name: jnlp
+      image: jenkins/inbound-agent:latest
     - name: kaniko
       image: gcr.io/kaniko-project/executor:debug
       volumeMounts:
