@@ -1,7 +1,33 @@
 pipeline {
-    agent any
-
-    tools { nodejs "node" }
+    agent {
+        kubernetes {
+            yaml """
+            apiVersion: v1
+            kind: Pod
+            metadata:
+              name: kaniko
+            spec:
+              containers:
+                - name: kaniko
+                  image: gcr.io/kaniko-project/executor:debug
+                  command:
+                    - sleep
+                  args:
+                    - 99d
+                  volumeMounts:
+                    - name: kaniko-secret
+                      mountPath: /kaniko/.docker
+              restartPolicy: Never
+              volumes:
+                - name: kaniko-secret
+                  secret:
+                    secretName: dockercred
+                    items:
+                      - key: .dockerconfigjson
+                        path: config.json
+            """
+        }
+    }
 
     environment {
         DOCKERHUB_USERNAME = "mortonkuo"
@@ -21,44 +47,15 @@ pipeline {
                 }
             }
         }
-        // stage('Test') {
-        //     steps {
-        //         echo 'Testing..'
-        //         sh 'npm install'
-        //         sh 'npm test'
-        //     }
-        // }
-        stage('Build') {
-            agent {
-              kubernetes {
-                  yaml """
-                  apiVersion: v1
-                  kind: Pod
-                  metadata:
-                    name: kaniko
-                  spec:
-                    containers:
-                      - name: kaniko
-                        image: gcr.io/kaniko-project/executor:debug
-                        command:
-                          - sleep
-                        args:
-                          - 99d
-                        volumeMounts:
-                          - name: kaniko-secret
-                            mountPath: /kaniko/.docker
-                    restartPolicy: Never
-                    volumes:
-                      - name: kaniko-secret
-                        secret:
-                          secretName: dockercred
-                          items:
-                            - key: .dockerconfigjson
-                              path: config.json
-                  """
-              }
+        stage('Test') {
+            tools { nodejs "node" }
+            steps {
+                echo 'Testing..'
+                sh 'npm install'
+                sh 'npm test'
             }
-
+        }
+        stage('Build') {
             steps {
               echo 'Building....'
               container("kaniko") {
