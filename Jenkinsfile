@@ -38,6 +38,12 @@ pipeline {
     }
 
     stages {
+        stage('git clone') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/morkuo/JenkinsTest.git'
+            }
+        }
         // stage('Build') {
         //     steps {
         //       git branch: 'main',
@@ -50,7 +56,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh 'npm config ls'
+                sh 'npm test'
             }
         }
         stage('Deploy') {
