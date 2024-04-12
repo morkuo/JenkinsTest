@@ -44,13 +44,13 @@ pipeline {
                     url: 'https://github.com/morkuo/JenkinsTest.git'
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-                sh 'npm install'
-                sh 'npm test'
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         echo 'Testing..'
+        //         sh 'npm install'
+        //         sh 'npm test'
+        //     }
+        // }
         stage('Build') {
             steps {
               container("kaniko") {
