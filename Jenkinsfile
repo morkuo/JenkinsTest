@@ -29,7 +29,7 @@ pipeline {
         }
     }
 
-    // tools { nodejs "node" }
+    tools { nodejs "node" }
 
     environment {
         DOCKERHUB_USERNAME = "mortonkuo"
