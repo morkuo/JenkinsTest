@@ -54,6 +54,11 @@ pipeline {
                 sh 'npm install'
                 sh 'npm test'
             }
+            post {
+                success {
+                    echo 'Tests passed'
+                }
+            }
         }
         stage('Build') {
             steps {
