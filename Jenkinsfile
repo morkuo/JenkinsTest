@@ -44,20 +44,18 @@ pipeline {
                     url: 'https://github.com/morkuo/JenkinsTest.git'
             }
         }
-        // stage('Build') {
-        //     steps {
-        //       git branch: 'main',
-        //           url: 'https://github.com/morkuo/JenkinsTest.git'
-        //       container("kaniko") {
-        //           sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination ${image}"
-        //       }
-        //     }
-        // }
         stage('Test') {
             steps {
                 echo 'Testing..'
                 sh 'npm install'
                 sh 'npm test'
+            }
+        }
+        stage('Build') {
+            steps {
+              container("kaniko") {
+                  sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination ${image}"
+              }
             }
         }
         stage('Deploy') {
