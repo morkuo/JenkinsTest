@@ -29,6 +29,8 @@ pipeline {
         }
     }
 
+    tools { nodejs "node" }
+
     environment {
         DOCKERHUB_USERNAME = "mortonkuo"
         IMAGE_NAME = "our-new-image"
@@ -48,6 +50,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
+                sh 'npm config ls'
             }
         }
         stage('Deploy') {
