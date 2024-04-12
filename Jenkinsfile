@@ -43,6 +43,11 @@ pipeline {
                 git branch: 'main',
                     url: 'https://github.com/morkuo/JenkinsTest.git'
             }
+            post {
+                success {
+                    echo 'Cloned successfully'
+                }
+            }
         }
         // stage('Test') {
         //     steps {
