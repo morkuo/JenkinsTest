@@ -29,6 +29,8 @@ pipeline {
         }
     }
 
+    tools { nodejs "node" }
+
     environment {
         DOCKERHUB_USERNAME = "mortonkuo"
         IMAGE_NAME = "our-new-image"
@@ -36,18 +38,19 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
-            steps {
-              git branch: 'main',
-                  url: 'https://github.com/morkuo/JenkinsTest.git'
-              container("kaniko") {
-                  sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination ${image}"
-              }
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //       git branch: 'main',
+        //           url: 'https://github.com/morkuo/JenkinsTest.git'
+        //       container("kaniko") {
+        //           sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination ${image}"
+        //       }
+        //     }
+        // }
         stage('Test') {
             steps {
                 echo 'Testing..'
+                sh 'npm config ls'
             }
         }
         stage('Deploy') {
