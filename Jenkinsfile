@@ -58,6 +58,7 @@ pipeline {
         // }
         stage('Build') {
             steps {
+              echo 'Building....'
               container("kaniko") {
                   sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination ${image}"
               }
