@@ -20,9 +20,10 @@ pipeline {
                 - name: kubectl
                   image: bitnami/kubectl:latest
                   command:
-                    - sleep
+                    - cat
                   args:
                     - 99d
+                  tty: true
               restartPolicy: Never
               volumes:
                 - name: kaniko-secret
