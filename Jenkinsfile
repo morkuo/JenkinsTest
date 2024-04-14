@@ -20,7 +20,7 @@ pipeline {
                 - name: kubectl
                   image: bitnami/kubectl:latest
                   command:
-                    - "sleep
+                    - sleep
                   args:
                     - 99d
               restartPolicy: Never
