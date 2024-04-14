@@ -80,7 +80,7 @@ pipeline {
                 // container(name: 'kubectl', shell: '/bin/sh') {
                 //     sh "kubectl apply -f app.yaml"
                 // }
-                withKubeConfig([credentialsId: 'client-certificate-data', serverUrl: 'https://kubernetes.default']) {
+                withKubeConfig([serverUrl: 'https://kubernetes.default']) {
                   sh 'kubectl apply -f app.yaml'
                 }
             }
