@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-svc
+  labels:
+    app: express
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      name: app
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: express
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  labels:
+    app: express
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: express
+  template:
+    metadata:
+      labels:
+        app: express
+      annotations:
+        # Add the following annotation to the pod spec to enable the OpenTelemetry Node.js instrumentation.
+        # The operator will create an init container and inject the required environment variables and volume mounts to the pod.
+        instrumentation.opentelemetry.io/inject-nodejs: 'true'
+    spec:
+      containers:
+        - name: app
+          image: mortonkuo/our-new-image
+          ports:
+            - name: app
+              containerPort: 3000
+          resources:
+            limits:
+              cpu: '0.5'
+              memory: '512Mi'
+            requests:
+              cpu: '0.1'
+              memory: '256Mi'

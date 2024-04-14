@@ -71,6 +71,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+                sh 'kubectl apply -f app.yaml'
             }
         }
     }
