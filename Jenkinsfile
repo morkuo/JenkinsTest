@@ -19,8 +19,6 @@ pipeline {
                       mountPath: /kaniko/.docker
                 - name: kubectl
                   image: bitnami/kubectl:latest
-                  command:
-                    - cat
                   tty: true
               restartPolicy: Never
               volumes:
@@ -78,7 +76,7 @@ pipeline {
                 echo 'Deploying....'
                 // sh 'kubectl apply -f app.yaml'
                 container(name: 'kubectl') {
-                  withKubeConfig([serverUrl: 'https://kubernetes.default']) {
+                  withKubeConfig() {
                      sh 'kubectl apply -f app.yaml'
                   }
                 }
