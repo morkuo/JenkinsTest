@@ -1,34 +1,39 @@
 pipeline {
-    agent any
-    // agent {
-    //     kubernetes {
-    //         yaml """
-    //         apiVersion: v1
-    //         kind: Pod
-    //         metadata:
-    //           name: kaniko
-    //         spec:
-    //           containers:
-    //             - name: kaniko
-    //               image: gcr.io/kaniko-project/executor:debug
-    //               command:
-    //                 - sleep
-    //               args:
-    //                 - 99d
-    //               volumeMounts:
-    //                 - name: kaniko-secret
-    //                   mountPath: /kaniko/.docker
-    //           restartPolicy: Never
-    //           volumes:
-    //             - name: kaniko-secret
-    //               secret:
-    //                 secretName: dockercred
-    //                 items:
-    //                   - key: .dockerconfigjson
-    //                     path: config.json
-    //         """
-    //     }
-    // }
+    agent {
+        kubernetes {
+            yaml """
+            apiVersion: v1
+            kind: Pod
+            metadata:
+              name: kaniko
+            spec:
+              containers:
+                - name: kaniko
+                  image: gcr.io/kaniko-project/executor:debug
+                  command:
+                    - sleep
+                  args:
+                    - 99d
+                  volumeMounts:
+                    - name: kaniko-secret
+                      mountPath: /kaniko/.docker
+                - name: kubectl
+                  image: bitnami/kubectl:latest
+                  command:
+                    - "sleep
+                  args:
+                    - 99d
+              restartPolicy: Never
+              volumes:
+                - name: kaniko-secret
+                  secret:
+                    secretName: dockercred
+                    items:
+                      - key: .dockerconfigjson
+                        path: config.json
+            """
+        }
+    }
 
     environment {
         DOCKERHUB_USERNAME = "mortonkuo"
@@ -72,7 +77,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh "kubectl apply -f app.yaml"
+                container(name: 'kubectl') {
+                    sh "kubectl apply -f app.yaml"
+                }
             }
         }
     }
