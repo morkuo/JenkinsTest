@@ -77,8 +77,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                container(name: 'kubectl') {
-                    sh "kubectl apply -f app.yaml"
+                // container(name: 'kubectl', shell: '/bin/sh') {
+                //     sh "kubectl apply -f app.yaml"
+                // }
+                withKubeConfig([credentialsId: 'docker-desktop', serverUrl: 'https://kubernetes.default']) {
+                  sh 'kubectl apply -f my-kubernetes-directory'
                 }
             }
         }
