@@ -21,8 +21,6 @@ pipeline {
                   image: bitnami/kubectl:latest
                   command:
                     - cat
-                  args:
-                    - 99d
                   tty: true
               restartPolicy: Never
               volumes:
