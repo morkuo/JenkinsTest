@@ -78,12 +78,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh 'kubectl apply -f app.yaml'
-                // container(name: 'kubectl') {
-                //   withKubeConfig([serverUrl: 'https://kubernetes.default']) {
-                //      sh 'kubectl apply -f app.yaml'
-                //   }
-                // }
+                // sh 'kubectl apply -f app.yaml'
+                container(name: 'kubectl') {
+                  withKubeConfig([serverUrl: 'https://kubernetes.default']) {
+                     sh 'kubectl apply -f app.yaml'
+                  }
+                }
             }
         }
     }
