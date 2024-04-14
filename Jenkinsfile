@@ -19,6 +19,8 @@ pipeline {
                       mountPath: /kaniko/.docker
                 - name: kubectl
                   image: bitnami/kubectl:latest
+                  command:
+                    - cat
                   tty: true
               restartPolicy: Never
               volumes:
