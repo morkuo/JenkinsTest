@@ -81,7 +81,7 @@ pipeline {
                 //     sh "kubectl apply -f app.yaml"
                 // }
                 withKubeConfig([credentialsId: 'client-certificate-data', serverUrl: 'https://kubernetes.default']) {
-                  sh 'kubectl apply -f my-kubernetes-directory'
+                  sh 'kubectl apply -f app.yaml'
                 }
             }
         }
