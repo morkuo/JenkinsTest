@@ -79,7 +79,7 @@ pipeline {
                 echo 'Deploying....'
                 container(name: 'kubectl') {
                   withKubeConfig([serverUrl: 'https://kubernetes.default']) {
-                     sh 'kubectl apply -f app.yaml'
+                     sh 'apply -f app.yaml'
                   }
                 }
             }
