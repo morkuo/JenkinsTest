@@ -77,11 +77,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                // container(name: 'kubectl', shell: '/bin/sh') {
-                //     sh "kubectl apply -f app.yaml"
-                // }
-                withKubeConfig([serverUrl: 'https://kubernetes.default']) {
-                  sh 'kubectl apply -f app.yaml'
+                container(name: 'kubectl', shell: '/bin/sh') {
+                  withKubeConfig([serverUrl: 'https://kubernetes.default']) {
+                     sh 'kubectl apply -f app.yaml'
+                  }
                 }
             }
         }
