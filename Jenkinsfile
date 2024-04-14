@@ -72,7 +72,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                "kubectl apply -f app.yaml"
+                sh "kubectl apply -f app.yaml"
             }
         }
     }
