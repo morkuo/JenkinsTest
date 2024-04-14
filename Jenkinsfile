@@ -72,7 +72,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh 'kubectl apply -f app.yaml'
+                kubernetesDeploy(
+                  configs: 'app.yaml',
+                  kubeconfigId: 'my-kubeconfig'
+                )
             }
         }
     }
