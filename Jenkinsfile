@@ -17,12 +17,6 @@ pipeline {
                   volumeMounts:
                     - name: kaniko-secret
                       mountPath: /kaniko/.docker
-                - name: kubectl
-                  image: bitnami/kubectl:latest
-                  command:
-                    - sleep
-                  args:
-                    - 99d
               restartPolicy: Never
               volumes:
                 - name: kaniko-secret
@@ -77,11 +71,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                container(name: 'kubectl', shell: '/bin/sh') {
-                  withKubeConfig([serverUrl: 'https://kubernetes.default']) {
-                     sh 'kubectl apply -f app.yaml'
-                  }
-                }
+                kubernetesDeploy(
+                  configs: 'app.yaml'
+                )
             }
         }
     }
