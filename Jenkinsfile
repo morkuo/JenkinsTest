@@ -28,7 +28,7 @@ pipeline {
                     items:
                       - key: .dockerconfigjson
                         path: config.json
-                 - name: kubeconfig-volume
+                - name: kubeconfig-volume
                   secret:
                     secretName: my-kubeconfig
             """
