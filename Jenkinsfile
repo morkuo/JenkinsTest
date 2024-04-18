@@ -17,11 +17,6 @@ pipeline {
                   volumeMounts:
                     - name: kaniko-secret
                       mountPath: /kaniko/.docker
-                - name: kubectl
-                  image: bitnami/kubectl:latest
-                  command:
-                    - cat
-                  tty: true
               restartPolicy: Never
               volumes:
                 - name: kaniko-secret
@@ -76,10 +71,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                node {
-                  withKubeConfig([namespace: "default"]) {
-                    sh 'kubectl get configmap'
-                  }
+                withKubeConfig([namespace: "default"]) {
+                  sh 'kubectl get configmap'
                 }
             }
         }
