@@ -76,11 +76,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                // sh 'kubectl apply -f app.yaml'
-                // echo workingDir()
-                echo pwd();
-                withKubeConfig([namespace: "default"]) {
-                  sh 'kubectl get configmap'
+                node {
+                  withKubeConfig([namespace: "default"]) {
+                    sh 'kubectl get configmap'
+                  }
                 }
             }
         }
