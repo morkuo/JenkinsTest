@@ -79,7 +79,7 @@ pipeline {
             steps {
                 echo 'Deploying....'
                 // sh 'kubectl apply -f app.yaml'
-                container(name: 'kubectl', shell: '/bin/sh') {
+                container(name: 'kubectl') {
                   withKubeConfig() {
                      sh 'kubectl apply -f app.yaml'
                   }
