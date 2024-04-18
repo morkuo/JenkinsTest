@@ -17,6 +17,9 @@ pipeline {
                   volumeMounts:
                     - name: kaniko-secret
                       mountPath: /kaniko/.docker
+                    - name: kubeconfig-volume
+                      mountPath: /kubeconfig
+                      readOnly: true
               restartPolicy: Never
               volumes:
                 - name: kaniko-secret
@@ -25,6 +28,9 @@ pipeline {
                     items:
                       - key: .dockerconfigjson
                         path: config.json
+                 - name: kubeconfig-volume
+                  secret:
+                    secretName: my-kubeconfig
             """
         }
     }
@@ -73,6 +79,7 @@ pipeline {
                 echo 'Deploying....'
                 sh 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"'
                 sh 'chmod u+x ./kubectl'
+                sh './kubectl config set-config my-config --kubeconfig=/kubeconfig'
                 // sh './kubectl version'
                 // sh './kubectl apply -f app.yaml'
                 sh './kubectl config view'
