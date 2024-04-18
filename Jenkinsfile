@@ -20,9 +20,7 @@ pipeline {
                 - name: kubectl
                   image: bitnami/kubectl:latest
                   command:
-                    - sleep
-                  args:
-                    - 99d
+                    - cat
                   tty: true
               restartPolicy: Never
               volumes:
@@ -79,6 +77,8 @@ pipeline {
             steps {
                 echo 'Deploying....'
                 // sh 'kubectl apply -f app.yaml'
+                // echo workingDir()
+                echo pwd();
                 container(name: 'kubectl') {
                      sh 'kubectl apply -f app.yaml'
                 }
