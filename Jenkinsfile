@@ -80,7 +80,8 @@ pipeline {
                 // echo workingDir()
                 echo pwd();
                 container(name: 'kubectl') {
-                     sh 'kubectl apply -f app.yaml'
+                    sh 'echo `pwd`'
+                    sh 'kubectl apply -f app.yaml'
                 }
             }
         }
