@@ -79,6 +79,7 @@ pipeline {
                 echo 'Deploying....'
                 sh 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"'
                 sh 'chmod u+x ./kubectl'
+                sh 'cat /kubeconfig'
                 sh './kubectl --kubeconfig=/kubeconfig config view'
                 // sh './kubectl version'
                 // sh './kubectl apply -f app.yaml'
