@@ -79,9 +79,8 @@ pipeline {
                 // sh 'kubectl apply -f app.yaml'
                 // echo workingDir()
                 echo pwd();
-                container(name: 'kubectl') {
-                    sh 'echo `pwd`'
-                    sh 'kubectl apply -f app.yaml'
+                withKubeConfig([namespace: "default"]) {
+                  sh 'kubectl get configmap'
                 }
             }
         }
