@@ -72,6 +72,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+                echo '$PATH'
                 withKubeConfig([namespace: "default"]) {
                   sh 'kubectl get configmap'
                 }
