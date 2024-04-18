@@ -71,7 +71,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                withKubeConfig([namespace: "default", credentialsId: "client-certificate-data"]) {
+                withKubeConfig([namespace: "default", credentialsId: "docker-desktop"]) {
                    sh 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"'
                    sh 'chmod u+x ./kubectl'
                    sh './kubectl get pods'
